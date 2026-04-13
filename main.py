@@ -116,7 +116,7 @@ def send_mail(info, content, receiver):
     """
     
     msg = MIMEMultipart()
-    msg['Subject'] = f"[추영][PubMed] {info['title'][:50]}..."
+    msg['Subject'] = f"[추영 Daily]{info['title'][:50]}..."
     msg['From'] = GMAIL_USER
     msg['To'] = receiver
     msg.attach(MIMEText(html_content, 'html'))
