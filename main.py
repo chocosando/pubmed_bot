@@ -9,7 +9,7 @@ GMAIL_USER = os.getenv('GMAIL_USER')
 GMAIL_PW = os.getenv('GMAIL_PASSWORD')
 OPENAI_KEY = os.getenv('OPENAI_API_KEY')
 RECEIVER_EMAIL = GMAIL_USER  # 본인에게 보낼 경우
-
+ 
 print("--- 환경 변수 점검 시작 ---")
 print(f"GMAIL_USER 존재 여부: {'✅' if GMAIL_USER else '❌'}")
 print(f"GMAIL_PW 존재 여부: {'✅' if GMAIL_PW else '❌'}")
