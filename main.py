@@ -15,12 +15,32 @@ RECEIVER_EMAILS = [GMAIL_USER, "chocosando@daum.net"]
 
 def get_latest_paper_details():
     Entrez.email = GMAIL_USER
+
     # MSK Radiology 관련 최신 논문 검색 (테스트를 위해 기간 30일 설정)
-    query = '("Spine"[Mesh] OR "Radiology"[Journal]) AND "last 60 days"[dp]'
+    #query = '("Spine"[Mesh] OR "Radiology"[Journal]) AND "last 60 days"[dp]'
+    #handle = Entrez.esearch(db="pubmed", term=query, sort="relevance", retmax=1)
+    #record = Entrez.read(handle)
+    #id_list = record["IdList"]
+    
+    # [개선] 1. 영향력 있는 저널 리스트 지정
+    top_journals = '("Radiology"[Journal] OR "Lancet"[Journal] OR "New England Journal of Medicine"[Journal] OR "Nature Medicine"[Journal] OR "JAMA"[Journal])'
+    
+    # [개선] 2. 관심 키워드와 결합 (MSK 및 AI 관련 예시)
+    # retmax를 5정도로 늘려 후보군을 뽑은 뒤 그 중 첫 번째를 선택하면 더 정확합니다.
+    query = f'{top_journals} AND ("Musculoskeletal"[Mesh] OR "Artificial Intelligence"[Mesh]) AND "last 30 days"[dp]'
+    
+    # [개선] 3. sort="relevance" (관련도순) 혹은 "pub_date" (최신순) 설정
     handle = Entrez.esearch(db="pubmed", term=query, sort="relevance", retmax=1)
     record = Entrez.read(handle)
     id_list = record["IdList"]
     
+    if not id_list:
+        # 만약 너무 좁은 쿼리로 결과가 없다면, 좀 더 넓은 쿼리로 재검색하는 로직
+        query_fallback = '("Spine"[Mesh] OR "Radiology"[Journal]) AND "last 60 days"[dp]'
+        handle = Entrez.esearch(db="pubmed", term=query_fallback, sort="relevance", retmax=1)
+        record = Entrez.read(handle)
+        id_list = record["IdList"]
+
     if not id_list:
         return None
     
@@ -76,7 +96,7 @@ def send_mail(info, content, receiver):
     <html>
     <body style="font-family: 'Malgun Gothic', sans-serif; line-height: 1.6;">
         <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
-            <h2 style="color: #0071bc; border-bottom: 2px solid #0071bc; padding-bottom: 10px;">[추영] Spine Radiology Update</h2>
+            <h2 style="color: #0071bc; border-bottom: 2px solid #0071bc; padding-bottom: 10px;">Spine Radiology Update</h2>
             <h3 style="color: #2c3e50;">{info['title']}</h3>
             <p style="font-size: 0.9em; color: #555;"><strong>Authors:</strong> {info['authors']}<br>
             <strong>Journal:</strong> {info['journal']}</p>
@@ -96,7 +116,7 @@ def send_mail(info, content, receiver):
     """
     
     msg = MIMEMultipart()
-    msg['Subject'] = f"[PubMed] {info['title'][:50]}..."
+    msg['Subject'] = f"[추영][PubMed] {info['title'][:50]}..."
     msg['From'] = GMAIL_USER
     msg['To'] = receiver
     msg.attach(MIMEText(html_content, 'html'))
