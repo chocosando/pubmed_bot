@@ -49,9 +49,24 @@ def send_mail(content):
         server.send_message(msg)
 
 # 실행 프로세스
+#if __name__ == "__main__":
+#    paper_abstract = get_latest_paper()
+#    if paper_abstract:
+#        summary = summarize_paper(paper_abstract)
+#        send_mail(summary)
+#        print("Success!")
+        
 if __name__ == "__main__":
+    print("Step 1: Searching PubMed...")
     paper_abstract = get_latest_paper()
+    
     if paper_abstract:
+        print("Step 2: Paper found! Summarizing...")
         summary = summarize_paper(paper_abstract)
+        
+        print("Step 3: Sending Email...")
         send_mail(summary)
+        
         print("Success!")
+    else:
+        print("No papers found with the current query.") # 결과가 없을 때 출력됨
