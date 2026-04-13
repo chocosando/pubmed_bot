@@ -62,6 +62,11 @@ def send_mail(content):
 #        print("Success!")
         
 if __name__ == "__main__":
+
+    print(f"User check: {GMAIL_USER[:3] if GMAIL_USER else 'None'}")
+    print(f"API Key check: {OPENAI_KEY[:5] if OPENAI_KEY else 'None'}")
+
+    
     print("Step 1: Searching PubMed...")
     paper_abstract = get_latest_paper()
     
