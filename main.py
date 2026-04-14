@@ -72,39 +72,36 @@ def get_latest_paper_details():
         "doi_url": f"https://doi.org/{doi}" if doi != "N/A" else "#"
     }
 
-
 def summarize_and_translate(abstract):
     client = openai.OpenAI(api_key=OPENAI_KEY)
     
-    # [개선] 더 구체적인 지시사항을 담은 프롬프트
+    # [개선] 분량을 2배로 늘리고 상세 지표를 포함하는 심층 프롬프트
     prompt = f"""
-    You are an expert Musculoskeletal Radiologist. Please analyze the following abstract and provide a detailed summary.
+    You are an expert Musculoskeletal Radiologist and Medical Scientist (M.D.-Ph.D.). 
+    Analyze the provided abstract in great detail for a specialist-level report.
 
-    1. English Summary (4-5 bullet points):
-       - Objective & Background: What is the core question?
-       - Methods & Study Design: Briefly mention the cohort size and techniques (e.g., Deep Learning model used).
-       - Key Results: Provide specific numbers or statistical significance if available.
-       - Clinical Implications: How does this change the current clinical practice?
-
-    2. Korean Translation:
-       - Provide a natural, professional translation of the above points.
-       - Use standard medical terminology (e.g., '하지 길이 차이' instead of '다리 길이 차이').
+    [Guidelines]
+    1. Expand the content to be twice as detailed as a standard summary.
+    2. Write in Korean, but ALWAYS include key technical and medical terms in English brackets [English Term].
+    3. Ensure the summary covers:
+       - 서론 및 연구 목적 [Introduction & Objective]: 연구의 배경과 가설을 상세히 기술.
+       - 대상 및 방법론 [Materials & Methods]: 환자 군[Cohort], 모델 구조[Architecture], 학습 방법[Training] 등 포함.
+       - 결과 분석 및 통계 [Results & Statistical Analysis]: 구체적인 수치[Numerical values], 신뢰구간[CI], 유의수준[p-value]을 반드시 포함.
+       - 고찰 및 임상적 가치 [Discussion & Clinical Value]: 실제 판독 현장에서의 의의와 기대 효과.
+       - 연구의 한계점 [Limitations]: 초록에서 언급된 제약 사항 기술.
 
     Abstract: {abstract}
     """
     
     response = client.chat.completions.create(
-        # 더 똑똑한 결과를 원하시면 gpt-4o (또는 gpt-4o-mini)를 사용하세요.
-        model="gpt-4o", 
+        model="gpt-4o", # 정보량이 많아지므로 논리력이 필요하다면 "gpt-4o"를 강력 추천합니다.
         messages=[
-            {"role": "system", "content": "You provide high-level academic summaries for medical professionals."},
+            {"role": "system", "content": "You are a senior academic researcher providing in-depth radiology paper reviews."},
             {"role": "user", "content": prompt}
         ],
-        temperature=0.3 # 값이 낮을수록 일관되고 정확한 요약이 나옵니다.
+        temperature=0.2
     )
     return response.choices[0].message.content
-
-
 
 
 
