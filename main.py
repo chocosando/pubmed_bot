@@ -22,28 +22,30 @@ def get_latest_paper_details():
     Entrez.email = GMAIL_USER
 
     
-    # [검색 쿼리] 최근 7일 이내의 다양한 저널 및 주제
-    # journals = (
-    #     '("Radiology"[Journal] OR "Radiology. Artificial intelligence"[Journal] OR '
-    #     '"Lancet Digital Health"[Journal] OR "European Radiology"[Journal] OR '
-    #     '"Skeletal radiology"[Journal] OR "AJR. American journal of roentgenology"[Journal]) OR ' 
-    #     '"Korean Journal of radiology"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
-    #     '"Scientific Reports"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
-    # )
-    journals = [
-        "Radiology", "Radiology. Artificial intelligence", "Lancet Digital Health",
-        "European Radiology", "Skeletal radiology", "AJR. American journal of roentgenology",
-        "Korean Journal of radiology", "European journal of Radiology", "Scientific Reports",
-        "Nature Medicine", "Nature Communications", "Lancet", "Spine", "The Spine Journal",
-        "AJNR. American journal of neuroradiology", "Neuroradiology", "Bone & joint journal",
-        "PLoS ONE", "JAMA"
-    ]
+    [검색 쿼리] 최근 7일 이내의 다양한 저널 및 주제
+    journals = (
+        '("Radiology"[Journal] OR "Radiology. Artificial intelligence"[Journal] OR '
+        '"Lancet Digital Health"[Journal] OR "European Radiology"[Journal] OR '
+        '"Skeletal radiology"[Journal] OR "AJR. American journal of roentgenology"[Journal]) OR ' 
+        '"Korean Journal of radiology"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
+        '"Scientific Reports"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
+    )
+    # journals = [
+    #     "Radiology", "Radiology. Artificial intelligence", "Lancet Digital Health",
+    #     "European Radiology", "Skeletal radiology", "AJR. American journal of roentgenology",
+    #     "Korean Journal of radiology", "European journal of Radiology", "Scientific Reports",
+    #     "Nature Medicine", "Nature Communications", "Lancet", "Spine", "The Spine Journal",
+    #     "AJNR. American journal of neuroradiology", "Neuroradiology", "Bone & joint journal",
+    #     "PLoS ONE", "JAMA"
+    # ]
 
     # topics = '("Musculoskeletal System"[Mesh] OR "Artificial Intelligence"[Mesh] OR "Deep Learning"[Mesh])'
     topics = '("Spine"[Mesh] OR "Spinal Cord"[Mesh] OR "Spondylosis"[Mesh] OR "Intervertebral Disc"[Mesh] OR "Spinal Diseases"[Mesh] OR "Vertebrae"[Title/Abstract])'
 
     # 최신성(pub_date)을 기준으로 검색하거나, 관련도순 검색 결과 중 상위권을 후보로 둠
-    query = f"{journals} AND {topics} AND (2025:2026[pdat])"
+#    query = f"{journals} AND {topics} AND (2025:2026[pdat])"
+    # [개선] hasabstract[Filter] 추가: 초록이 있는 논문만 검색
+    query = f"({journals}) AND {spine_keywords} AND hasabstract[Filter] AND \"last 60 days\"[dp]"
     
     # [수정] retmax를 10으로 늘려 후보군을 많이 확보합니다.
     handle = Entrez.esearch(db="pubmed", term=query, sort="relevance", retmax=10)
