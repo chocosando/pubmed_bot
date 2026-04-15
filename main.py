@@ -21,23 +21,21 @@ RECEIVER_EMAILS = [GMAIL_USER, "chocosando@daum.net", "agn70@yuhs.ac", "reanhea5
 def get_latest_paper_details():
     Entrez.email = GMAIL_USER
 
-    
-    [검색 쿼리] 최근 7일 이내의 다양한 저널 및 주제
-    journals = (
-        '("Radiology"[Journal] OR "Radiology. Artificial intelligence"[Journal] OR '
-        '"Lancet Digital Health"[Journal] OR "European Radiology"[Journal] OR '
-        '"Skeletal radiology"[Journal] OR "AJR. American journal of roentgenology"[Journal]) OR ' 
-        '"Korean Journal of radiology"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
-        '"Scientific Reports"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
-    )
-    # journals = [
-    #     "Radiology", "Radiology. Artificial intelligence", "Lancet Digital Health",
-    #     "European Radiology", "Skeletal radiology", "AJR. American journal of roentgenology",
-    #     "Korean Journal of radiology", "European journal of Radiology", "Scientific Reports",
-    #     "Nature Medicine", "Nature Communications", "Lancet", "Spine", "The Spine Journal",
-    #     "AJNR. American journal of neuroradiology", "Neuroradiology", "Bone & joint journal",
-    #     "PLoS ONE", "JAMA"
-    # ]
+    # journals = (
+    #     '("Radiology"[Journal] OR "Radiology. Artificial intelligence"[Journal] OR '
+    #     '"Lancet Digital Health"[Journal] OR "European Radiology"[Journal] OR '
+    #     '"Skeletal radiology"[Journal] OR "AJR. American journal of roentgenology"[Journal]) OR ' 
+    #     '"Korean Journal of radiology"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
+    #     '"Scientific Reports"[Journal] OR "European journal of Radiology"[Journal]) OR ' 
+    # )
+    journals = [
+        "Radiology", "Radiology. Artificial intelligence", "Lancet Digital Health",
+        "European Radiology", "Skeletal radiology", "AJR. American journal of roentgenology",
+        "Korean Journal of radiology", "European journal of Radiology", "Scientific Reports",
+        "Nature Medicine", "Nature Communications", "Lancet", "Spine", "The Spine Journal",
+        "AJNR. American journal of neuroradiology", "Neuroradiology", "Bone & joint journal",
+        "PLoS ONE", "JAMA"
+    ]
 
     # topics = '("Musculoskeletal System"[Mesh] OR "Artificial Intelligence"[Mesh] OR "Deep Learning"[Mesh])'
     topics = '("Spine"[Mesh] OR "Spinal Cord"[Mesh] OR "Spondylosis"[Mesh] OR "Intervertebral Disc"[Mesh] OR "Spinal Diseases"[Mesh] OR "Vertebrae"[Title/Abstract])'
