@@ -155,8 +155,8 @@ def send_mail(info, content, receiver):
     
     msg = MIMEMultipart()
     msg['Subject'] = f"[Daily Report] {info['title'][:60]}..."
-    #msg['From'] = GMAIL_USER
-    msg['From'] = f"추영 KSSR {GMAIL_USER}" # 이런 식으로 앞에 이름을 붙일 수 있습니다.
+#   msg['From'] = GMAIL_USER
+    msg['From'] = f"추영 KSSR {GMAIL_USER}"
     msg['To'] = receiver
     msg.attach(MIMEText(html_content, 'html'))
 
