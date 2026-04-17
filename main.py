@@ -115,7 +115,8 @@ def summarize_and_translate(info):
     [Guidelines]
     1. Expand the content to be twice as detailed as a standard summary.
     2. Write in Korean, but ALWAYS include key technical and medical terms in [English Term].
-    3. Structure: 저널 및 날짜, 서론[Introduction], 방법[Methods], 결과[Results], 고찰[Discussion], 한계점[Limitations].
+#    3. Structure: 제목, 저널 및 날짜, 서론[Introduction], 방법[Methods], 결과[Results], 고찰[Discussion], 한계점[Limitations].
+    3. Structure: 제목, 저널 및 날짜, 서론 및 방법, 결과, 고찰 및 한계점.
 
     Abstract to analyze: {info['abstract']}
     """
@@ -141,7 +142,7 @@ def send_mail(info, content, receiver):
             <header style="border-bottom: 3px solid #0071bc; padding-bottom: 15px; margin-bottom: 25px;">
                 <h2 style="color: #0071bc; margin: 0;">📩 Spine Radiology Daily Report</h2>
                 <p style="font-size: 0.8em; color: #999; margin-top: 15px;">  </p>
-                <p style="font-size: 0.8em; color: #999; margin-top: 15px;"> {info['title']} </p>
+                <p style="font-size: 1.2em; color: #EEEEEE; margin-top: 15px;"> {info['title']} </p>
                 <p style="font-size: 0.8em; color: #999; margin-top: 15px;">  </p>
             </header>
             
