@@ -156,7 +156,9 @@ def send_mail(info, content, receiver):
     msg = MIMEMultipart()
     msg['Subject'] = f"[Daily Report] {info['title'][:60]}..."
 #   msg['From'] = GMAIL_USER
-    msg['From'] = f"추영 KSSR {GMAIL_USER}"
+    display_name = "추영 KSSR"
+    msg['From'] = f"{Header(display_name, 'utf-8').encode()} <{GMAIL_USER}>"
+    
     msg['To'] = receiver
     msg.attach(MIMEText(html_content, 'html'))
 
@@ -203,7 +205,7 @@ if __name__ == "__main__":
         # 텔레그램 발송
         print("Attempting to send Telegram message...")
         try:
-            status = send_telegram_message(info, content)
+#            status = send_telegram_message(info, content)
             if status == 200:
                 print("Telegram success!")
         except Exception as e:
