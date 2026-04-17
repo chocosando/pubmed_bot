@@ -141,6 +141,7 @@ def send_mail(info, content, receiver):
         <div style="max-width: 700px; margin: auto; border: 1px solid #e1e4e8; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <header style="border-bottom: 3px solid #0071bc; padding-bottom: 15px; margin-bottom: 25px;">
                 <h2 style="color: #0071bc; margin: 0;">📩 Spine Radiology Daily Report</h2>
+                <p style="font-size: 0.8em; color: #999; margin-top: 15px;">  </p>
             </header>
             
             <section style="margin-bottom: 25px;">
