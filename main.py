@@ -38,8 +38,8 @@ def get_latest_paper_details():
     nature_filter = '("Nature"[Journal] OR "Nature"[Title/Abstract])'
 
     # 기존 쿼리에 결합 예시
-#    query = f"{radiology_all_jcr} AND {spine_topics} AND hasabstract[Filter] AND (2024:2030[pdat])"
-    query = f"({journals_query} OR {nature_filter}) AND {topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
+    query = f"({radiology_all_jcr} OR {nature_filter}) AND {spine_topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
+#    query = f"({journals_query} OR {nature_filter}) AND {topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
     
 
     try:
@@ -116,7 +116,7 @@ def summarize_and_translate(info):
     [Guidelines]
     1. Expand the content to be twice as detailed as a standard summary.
     2. Write in Korean, but ALWAYS include key technical and medical terms in [English Term].
-    3. Structure: 서론[Introduction], 방법[Methods], 결과[Results], 고찰[Discussion], 한계점[Limitations].
+    3. Structure: 저널 및 날짜, 서론[Introduction], 방법[Methods], 결과[Results], 고찰[Discussion], 한계점[Limitations].
 
     Abstract to analyze: {info['abstract']}
     """
