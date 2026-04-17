@@ -41,9 +41,9 @@ def get_latest_paper_details():
     topics = '("Spine"[Mesh] OR "Spinal Cord"[Mesh] OR "Spondylosis"[Mesh] OR "Intervertebral Disc"[Mesh] OR "Spinal Diseases"[Mesh] OR "Vertebrae"[Title/Abstract])'
 
     # 최신성(pub_date)을 기준으로 검색하거나, 관련도순 검색 결과 중 상위권을 후보로 둠
-#    query = f"{journals} AND {topics} AND (2025:2026[pdat])"
+    query = f"{journals} AND {topics} AND (2025:2026[pdat])"
     # [개선] hasabstract[Filter] 추가: 초록이 있는 논문만 검색
-    query = f"({journals}) AND {spine_keywords} AND hasabstract[Filter] AND \"last 60 days\"[dp]"
+#    query = f"({journals})AND hasabstract[Filter] AND \"last 60 days\"[dp]"
     
     # [수정] retmax를 10으로 늘려 후보군을 많이 확보합니다.
     handle = Entrez.esearch(db="pubmed", term=query, sort="relevance", retmax=10)
