@@ -87,6 +87,17 @@ def get_latest_paper_details():
             break
             
     journal = medline['Journal'].get('Title', 'Unknown Journal')
+
+    pub_date_info = article['Journal']['JournalIssue']['PubDate']
+    year = pub_date_info.get('Year', '')
+    month = pub_date_info.get('Month', '')
+    day = pub_date_info.get('Day', '')
+        
+    # 만약 Year가 없다면 MedlineDate 필드 확인 (2026 Spring 같은 형식)
+    if not year:
+        year = pub_date_info.get('MedlineDate', 'Date N/A')
+    
+    date_str = f"{year} {month} {day}".strip()
     
     return {
         "title": title, "abstract": abstract, "authors": author_text,
