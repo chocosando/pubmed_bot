@@ -104,23 +104,22 @@ def summarize_and_translate(info):
     You are an expert Musculoskeletal Radiologist (M.D.-Ph.D.). 
     Analyze the provided abstract in great detail for a specialist-level report.
     
-    ### 1. 제목: {info['title']}
-
-    ### 2. 저널 및 날짜: {info['journal']} | 발행일: {info['date']}
-
-    ### 3. 저자: {info['authors']}
 
     ---
 
     [Guidelines]
     1. Expand the content to be twice as detailed as a standard summary.
     2. Write in Korean, but ALWAYS include key technical and medical terms in [English Term].
-#    3. Structure: 제목, 저널 및 날짜, 서론[Introduction], 방법[Methods], 결과[Results], 고찰[Discussion], 한계점[Limitations].
     3. Structure: 제목, 저널 및 날짜, 서론 및 방법, 결과, 고찰 및 한계점.
 
     Abstract to analyze: {info['abstract']}
     """
-    
+
+    # 1. 제목: {info['title']}
+    # 2. 저널 및 날짜: {info['journal']} | 발행일: {info['date']}
+    # 3. 저자: {info['authors']}
+#    3. Structure: 제목, 저널 및 날짜, 서론[Introduction], 방법[Methods], 결과[Results], 고찰[Discussion], 한계점[Limitations].
+
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
