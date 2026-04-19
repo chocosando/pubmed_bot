@@ -105,7 +105,7 @@ def summarize_and_translate(info):
     
     # [수정] 요청하신 줄바꿈 포맷 반영
     prompt = f"""
-    You are an expert Spine Radiologist (M.D.-Ph.D.). 
+    You are an expert Spine Radiologist (musculoskeletal radiologist, neuradiologist, intervenitonal radiologist). 
     Analyze the provided abstract in great detail for a specialist-level report.
 
     ---
@@ -126,7 +126,7 @@ def summarize_and_translate(info):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a senior academic researcher providing in-depth radiology reviews."},
+#            {"role": "system", "content": "You are a senior academic researcher providing in-depth radiology reviews."},
             {"role": "user", "content": prompt}
         ],
         temperature=0.2
