@@ -185,28 +185,43 @@ def send_mail(info, content, receiver):
         server.send_message(msg)
 
 
+
 def send_telegram_message(info, content):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        return
-
-    content = content.replace("<sup>", "^").replace("</sup>", "")
+        print("DEBUG: Telegram credentials missing.")
+        return 0
     
-    # 텔레그램은 MarkdownV2보다 HTML 파싱이 안정적일 때가 많습니다.
-    text = f"<b>[Daily Spine Radiology]</b>\n\n"
-    text += f"<b>{info['title']}</b>\n\n"
-    text += f"<i>{info['journal']} | {info['date']}</i>\n\n"
-    text += f"━━━━━━━━━━━━━━━\n"
-    text += f"{content}\n"
-    text += f"━━━━━━━━━━━━━━━\n\n"
+    print("DEBUG: Preparing Telegram message payload...")
+    
+    # 텔레그램이 싫어하는 태그들 사전 제거
+    clean_content = content.replace("<sup>", "^").replace("</sup>", "").replace("<sub>", "_").replace("</sub>", "")
+    safe_content = html.escape(clean_content)
+    safe_title = html.escape(info['title'])
+    
+    text = f"<b>[KSSR Daily]</b>\n\n"
+    text += f"<b>{safe_title}</b>\n\n"
+    text += f"{safe_content}\n\n"
     text += f"🔗 <a href='{info['pubmed_url']}'>PubMed 보기</a>"
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "HTML"}
     
-    res = requests.post(url, json=payload)
-    return res.status_code
-
-
+    try:
+        print(f"DEBUG: Sending request to Telegram API (Chat ID: {TELEGRAM_CHAT_ID})...")
+        # timeout을 15초로 설정하여 무한 대기를 방지합니다.
+        res = requests.post(url, json=payload, timeout=15)
+        
+        print(f"DEBUG: Telegram Response Code: {res.status_code}")
+        if res.status_code != 200:
+            print(f"DEBUG: Telegram Error Message: {res.text}")
+        return res.status_code
+    except requests.exceptions.Timeout:
+        print("DEBUG: Telegram Error - Request Timeout (API 서버 응답 없음)")
+        return 0
+    except Exception as e:
+        print(f"DEBUG: Telegram Error - Exception occurred: {e}")
+        return 0
+        
 
 
 # def send_telegram_message(info, content):
