@@ -16,11 +16,11 @@ OPENAI_KEY = os.getenv('OPENAI_API_KEY')
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-RECEIVER_EMAILS = [GMAIL_USER, "chocosando@daum.net", "agn70@yuhs.ac", "reanhea55@yuhs.ac", "classic0610@yuhs.ac", "andrew0668@yuhs.ac",  
-                  "jaywony@gmail.com", "jjdragon112@gmail.com", "leesw1@gmail.com", "drchoi01@snu.ac.kr", "chung@amc.seoul.kr",
-                  "mbgracie@gmail.com"]
+# RECEIVER_EMAILS = [GMAIL_USER, "chocosando@daum.net", "agn70@yuhs.ac", "reanhea55@yuhs.ac", "classic0610@yuhs.ac", "andrew0668@yuhs.ac",  
+#                   "jaywony@gmail.com", "jjdragon112@gmail.com", "leesw1@gmail.com", "drchoi01@snu.ac.kr", "chung@amc.seoul.kr",
+#                   "mbgracie@gmail.com"]
 
-#RECEIVER_EMAILS = ["chocosando@daum.net"]  
+RECEIVER_EMAILS = ["chocosando@daum.net"]  
 
 def get_latest_paper_details():
     Entrez.email = GMAIL_USER
@@ -36,14 +36,23 @@ def get_latest_paper_details():
 
     # 1 [핵심 변경] JCR Radiology 카테고리 전체를 아우르는 검색 필터
     radiology_all_jcr = '("Radiology"[Journal] OR "Diagnostic Imaging"[Journal] OR "Nuclear Medicine"[Journal] OR "Medical Imaging"[Journal])'
+  
+    #2 spine jounral  
+    spine_clinical_journals = (
+        '("Spine"[Journal] OR "The Spine Journal"[Journal] OR "European Spine Journal"[Journal] OR '
+        '"Journal of Neurosurgery Spine"[Journal] OR "Spine Deformity"[Journal] OR "Global Spine Journal"[Journal] OR '
+        '"World Neurosurgery"[Journal] OR "The Bone & Joint Journal"[Journal] OR "Journal of Orthopaedic Research"[Journal] OR '
+        '"Pain Physician"[Journal] OR "Pain Medicine"[Journal] OR "Neurology"[Journal])'
+        )
+
     # 2 Spine 관련 핵심 키워드 (MSK Radiologist 전문성 유지)
     spine_topics = '("Spine"[Mesh] OR "Spinal Cord"[Mesh] OR "Spondylosis"[Mesh] OR "Intervertebral Disc"[Mesh] OR "Spinal Diseases"[Mesh] OR "Vertebrae"[Title/Abstract])'
     # 3 nature 계열 + SCI/SCIE급 고퀄리티 필터 (Review나 Case Report 제외 가능)
     nature_filter = '("Nature"[Journal] OR "Nature"[Title/Abstract])'
 
     # 기존 쿼리에 결합 예시
-#    query = f"({radiology_all_jcr} OR {nature_filter}) AND {spine_topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
-    query = f"({radiology_all_jcr}) AND {spine_topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
+    query = f"({radiology_all_jcr} OR {spine_clinical_journals}) AND {spine_topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
+#    query = f"({radiology_all_jcr}) AND {spine_topics} AND hasabstract[Filter] AND (2025:2030[pdat])"
     
 
     try:
